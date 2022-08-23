@@ -67,5 +67,7 @@ workflow {
     countFiles(filein)
     splitspy=splitfilesPY(filein)
     splitslx=splitfileslx(filein)
-    countBases(splitslx)
+    splitslxflat=splitslx.flatten()
+    splitslxflat.view()
+    countBases(splitsxlflat)
 }
