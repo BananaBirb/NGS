@@ -1,0 +1,29 @@
+- name: no correct input file (no file or url provided)
+  command: nextflow run sampipeline.nf --infile tests/test_seq1.sam 
+  files:
+    - path: 'out/input.sam'
+      should_exist: false
+  stdout:
+      contains: 
+        - "Error"
+        - "provide"
+        - "url"
+        - "file"
+      must_not_contain:
+        - 'process >'
+  stderr:
+      contains:
+        - 'Command exit status: 0'
+        - 'no such file or directory'
+- name: no correct input file (broken ~ broken file/wrong file format)
+  command: nextflow run sampipeline.nf --infile tests/test_broken.sam 
+  files:
+    - path: 'out/input.sam'
+      should_exist: false
+  stdout:
+      contains: 
+        - "Error"
+        - "provide"
+        - "url"
+      must_not_contain:
+        - 'process >'

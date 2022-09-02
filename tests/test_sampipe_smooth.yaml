@@ -1,0 +1,30 @@
+- name: correct output directory and input file
+  command: nextflow run sampipeline.nf --infile tests/test_seq1.sam --outdir out 
+  files:
+    - path: 'out'
+      should_exist: true
+  stdout:
+    contains:
+      - '*.sam'
+  
+
+- name: correct splitting of files
+  command: nextflow run sampipeline.nf --outdir out --infile tests/test_broken.sam
+  files:
+    - path: 'out/sequence_*.fasta'
+      should_exist: true
+      contains: 
+        - '[AGCT]'
+      must_not_contain: 
+        - '[*\t]'
+  
+
+- name: correct output directory with results with seq3
+  command: nextflow run sampipeline.nf --outdir out --infile tests/test_seq3.sam
+  files:
+    - path: 'out'
+      should_exist: true
+  stdout:
+    contains:
+      - '*.sam'
+
